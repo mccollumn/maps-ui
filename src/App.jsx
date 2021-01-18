@@ -8,6 +8,7 @@ import {
 
 import './App.css';
 import {Users} from './pages/Users';
+import {Map} from './pages/Map';
 
 function App() {
   return (
@@ -25,12 +26,18 @@ function App() {
               <li>
                 <Link to="/users">Users</Link>
               </li>
+              <li>
+                <Link to="/map">Map</Link>
+              </li>
             </ul>
           </nav>
 
           {/* A <Switch> looks through its children <Route>s and
              renders the first one that matches the current URL. */}
           <Switch>
+            <Route path="/map">
+              <Map/>
+            </Route>
             <Route path="/about">
               About
             </Route>
