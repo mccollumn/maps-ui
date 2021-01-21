@@ -42,9 +42,7 @@ function App() {
               About
             </Route>
             <Route path="/users">
-              <Users>
-                Hello I am some stuff from parent
-              </Users>
+              <Users />
             </Route>
             <Route path="/">
               Home

@@ -1,41 +1,36 @@
 import React from "react";
+import useAxios from 'axios-hooks';
 
-export const Users = ({children}) => {
-  // useState Example
-  const [counter, setCounter] = React.useState(0);
+export const Users = () => {
+  const [{ data = {data: []}, loading, error }, refetch] = useAxios(
+    'https://reqres.in/api/users?delay=1'
+  )
 
-  console.log('Render', counter);
+  console.log("Axios: ", data, loading, error);
 
-  const clickHandler = () => {
-    console.log('Am Clicked', counter);
-    //counter = counter +1;
-    setCounter(counter +1);
-  };
-
-  React.useEffect(() => {
-    console.log('After Draw', counter);
-  });
+  const UserList = data.data.map(User);
 
   return (
     <div>
-      I am USERS ddddd
-      <div>
-        Count: {counter}
-      </div>
-
-      <div
-        style={{
-          color: 'red'
-        }}>
-
-
-        <hr/>
-        {children}
-        <br/>
-        <button onClick={clickHandler}>
-          Hello
-        </button>
-      </div>
+      {UserList}
     </div>
   );
 };
+
+const User = (
+  {avatar,
+  email,
+  first_name,
+  last_name,
+  id
+}
+) => {
+  return (
+    <div key = {id}>
+      <img src={avatar}/>
+      <div>{first_name}</div>
+      <div>{last_name}</div>
+      <div>{email}</div>
+    </div>
+  )
+}
