@@ -9,6 +9,7 @@ import {
 import './App.css';
 import {Users} from './pages/Users';
 import {Map} from './pages/Map';
+import {MapList} from './pages/MapList';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
               <li>
                 <Link to="/map">Map</Link>
               </li>
+              <li>
+                <Link to="/maplist">Map List</Link>
+              </li>
             </ul>
           </nav>
 
@@ -43,6 +47,9 @@ function App() {
             </Route>
             <Route path="/users">
               <Users />
+            </Route>
+            <Route path="/maplist">
+              <MapList/>
             </Route>
             <Route path="/">
               Home
