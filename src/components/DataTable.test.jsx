@@ -25,6 +25,8 @@ describe('<DataTable/>', () => {
     <DataTable data={mockData}/>);
     const linkElement = screen.getByText(/col1/i);
     expect(linkElement).toBeInTheDocument();
+    const linkElement2 = screen.getByText(/test row 2 col 2/i);
+    expect(linkElement2).toBeInTheDocument();
   });
 })
 
