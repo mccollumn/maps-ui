@@ -1,41 +1,31 @@
 .table-container {
+    display:table;
+    width: 100%;
     border: 1px solid black;
-
-    display:  table;
-width:auto;
-        background-color:#eee;
-        border:1px solid  #666666;
-        border-spacing:5px;
 }
 
 .header-row {
     border: 1px solid black;
-    display: flex;
+    display: table-header-group;
 }
 
 .header-cell {
+    display: table-cell;
     background: yellow;
-    margin: 20px;
-    flex-grow: 1;
+    border: 1px solid black;
 }
 
 .table-row {
     border: 1px solid black;
     display: table-row;
-    width: auto;
 }
 
 .table-cell {
-    /* background: pink;
-    margin: 20px;
-    flex-grow: 1; */
-
-    float:left;/*fix for  buggy browsers*/
-        display:table-column;
-        width:200px;
-        background-color:#ccc;
+    display:table-cell;
+    border: 1px solid black;
 }
 
 .body {
+    display: table-row-group;
     border: 1px solid black;
 }
