@@ -1,10 +1,11 @@
 import React from 'react';
+import './DataTable.css';
 
 export const DataTable = ({ data = [{}] }) => {
     const headers = Object.keys(data[0]);
     const Headers = headers.map((h, index) => {
         return (
-            <div key={index}>{h}</div>
+            <div key={index} className='header-cell'>{h}</div>
         );
     });
 
@@ -17,11 +18,11 @@ export const DataTable = ({ data = [{}] }) => {
         );
     });
     return (
-        <div>
+        <div className='table-container'>
             <div className='header-row'>
                 {Headers}
             </div>
-            <div>
+            <div className='body'>
                 {Rows}
             </div>
         </div>
