@@ -1,18 +1,19 @@
 import React from 'react';
 import './DataTable.css';
 
-export const DataTable = ({ data = [{}] }) => {
+export const DataTable = ({ data = [{}], custom = {} }) => {
     const headers = Object.keys(data[0]);
-    const Headers = headers.map((h, index) => {
-        return (
-            <div key={index} className='header-cell'>{h}</div>
-        );
-    });
+    const Headers = headers.map((h, index) => getHeaderCell(h, index, custom));
 
     const Rows = data.map((row, index) => {
         const cells = getCells(row);
+        const handleRowClick = () => {
+            if (typeof custom.rowClick === "function") {
+                custom.rowClick(row);
+            }
+        }
         return (
-            <div className='table-row' key={index}>
+            <div className='table-row' key={index} onClick={handleRowClick} >
                 {cells}
             </div>
         );
@@ -37,4 +38,14 @@ const getCells = (row) => {
             </div>
         )
     });
+}
+
+const getHeaderCell = (h, index, custom = {}) => {
+    let display = h;
+    if (custom[h] && custom[h].name) {
+        display = custom[h].name;
+    }
+    return (
+        <div key={index} className='header-cell'>{display}</div>
+    );
 }

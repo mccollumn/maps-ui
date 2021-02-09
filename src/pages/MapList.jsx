@@ -18,10 +18,17 @@ export const MapList = () => {
             long: -122.49909030311268
         }
     ]
+
+    const custom = {
+        lat: { name: "Latitude" },
+        long: { name: "Longitude" },
+        rowClick: (row) => { console.log(row) }
+    };
+
     return (
         <div>
             <MapForm />
-            <DataTable data={locations} />
+            <DataTable data={locations} custom={custom} />
         </div>
     );
 }
