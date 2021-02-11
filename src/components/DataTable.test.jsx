@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { DataTable } from './DataTable';
 
 describe('<DataTable/>', () => {
@@ -47,6 +47,32 @@ describe('<DataTable/>', () => {
       <DataTable data={mockData} custom={custom} />);
     const linkElement = screen.getByText("COLUMN2");
     expect(linkElement).toBeInTheDocument();
+  });
+
+  it('should show custom data', () => {
+    const mockRowClick = jest.fn();
+    const mockData = [
+      {
+        col1: 'test row 1 col 1',
+        col2: 'test row 1 col 2',
+      },
+      {
+        col1: 'test row 2 col 1',
+        col2: 'test row 2 col 2',
+      }
+    ];
+    const custom = {
+      rowClick: mockRowClick
+    }
+    const { getByText } = render(
+      <DataTable data={mockData} custom={custom} />
+    );
+    const node = getByText('test row 2 col 2');
+    fireEvent.click(node);
+    expect(mockRowClick).toBeCalledWith({
+      col1: 'test row 2 col 1',
+      col2: 'test row 2 col 2',
+    });
   });
 })
 

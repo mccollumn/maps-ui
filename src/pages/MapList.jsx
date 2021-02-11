@@ -22,7 +22,10 @@ export const MapList = () => {
     const custom = {
         lat: { name: "Latitude" },
         long: { name: "Longitude" },
-        rowClick: (row) => { console.log(row) }
+        rowClick: (row) => {
+            const url = `https://www.google.com/maps/search/?api=1&query=${row.lat},${row.long}`;
+            window.open(url);
+        }
     };
 
     return (

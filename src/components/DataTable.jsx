@@ -5,19 +5,7 @@ export const DataTable = ({ data = [{}], custom = {} }) => {
     const headers = Object.keys(data[0]);
     const Headers = headers.map((h, index) => getHeaderCell(h, index, custom));
 
-    const Rows = data.map((row, index) => {
-        const cells = getCells(row);
-        const handleRowClick = () => {
-            if (typeof custom.rowClick === "function") {
-                custom.rowClick(row);
-            }
-        }
-        return (
-            <div className='table-row' key={index} onClick={handleRowClick} >
-                {cells}
-            </div>
-        );
-    });
+    const Rows = data.map((r, index) => getRow(r, index, custom));
     return (
         <div className='table-container'>
             <div className='header-row'>
@@ -49,3 +37,18 @@ const getHeaderCell = (h, index, custom = {}) => {
         <div key={index} className='header-cell'>{display}</div>
     );
 }
+
+const getRow = (row, index, custom = {}) => {
+    const cells = getCells(row);
+    const handleRowClick = () => {
+        if (typeof custom.rowClick === "function") {
+            custom.rowClick(row);
+        }
+    }
+    return (
+        <div className='table-row' key={index} onClick={handleRowClick} >
+            {cells}
+        </div>
+    );
+}
+
