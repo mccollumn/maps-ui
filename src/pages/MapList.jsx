@@ -1,4 +1,6 @@
 import React from 'react';
+import { useForm } from "react-hook-form";
+import _ from "lodash";
 import { DataTable } from '../components/DataTable';
 
 export const MapList = () => {
@@ -36,10 +38,43 @@ export const MapList = () => {
     );
 }
 
+
 const MapForm = () => {
+    const { handleSubmit, register, errors } = useForm();
+    const onSubmit = values => console.log(values);
+    console.log(errors);
+    let ratingValue = _.get(errors, "rating.ref.value");
+    console.log(`${ratingValue} is not a valid rating`);
+
     return (
-        <div>
-            I'm a form.
+        <div className='location-form' >
+            <form onSubmit={handleSubmit(onSubmit)} style={{
+                display: 'flex',
+                flexDirection: 'column',
+                margin: '24px'
+            }}>
+                <div>
+                    <input type='text' placeholder='Location Name' name='name' ref={register} />
+                </div>
+                <div>
+                    <input type='number' placeholder='Rating' name='rating' ref={register({
+                        max: 5
+                    })} />
+                </div>
+                <div>
+                    <input type='text' placeholder='Comments' name='comment' ref={register} />
+                </div>
+                <div>
+                    <input type='number' step='any' placeholder='Latitude' name='lat' ref={register} />
+                </div>
+                <div>
+                    <input type='number' step='any' placeholder='Longitude' name='long' ref={register} />
+                </div>
+                <br />
+                <div>
+                    <input type='submit' value='Add Location' />
+                </div>
+            </form>
         </div>
     )
 }
