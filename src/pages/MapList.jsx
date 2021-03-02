@@ -5,22 +5,15 @@ import { DataTable } from '../components/DataTable';
 import useAxios from 'axios-hooks';
 
 export const MapList = () => {
-    const locations = [
+    const [{ data = { data: [] }, loading, error }] = useAxios(
         {
-            name: "My place",
-            rating: 5,
-            comment: "",
-            lat: 45.426884908241355,
-            long: -122.52172814602221
-        },
-        {
-            name: "Their place",
-            rating: 1,
-            comment: "",
-            lat: 45.426598778936274,
-            long: -122.49909030311268
+            url: '/locationData',
+            method: 'get',
+            baseURL: 'http://localhost:3001',
+            headers: { 'Access-Control-Allow-Origin': '*' },
         }
-    ]
+    );
+    console.log(data)
 
     const custom = {
         lat: { name: "Latitude" },
@@ -34,7 +27,7 @@ export const MapList = () => {
     return (
         <div>
             <MapForm />
-            <DataTable data={locations} custom={custom} />
+            <DataTable data={data.data} custom={custom} />
         </div>
     );
 }
