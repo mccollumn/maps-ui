@@ -4,7 +4,13 @@ import { DataTable } from './DataTable';
 describe('<DataTable/>', () => {
   it('should render table with no properties', () => {
     const { container } = render(<DataTable />);
-    //const linkElement = screen.getByText(/Table/);
+    expect(
+      container.getElementsByClassName('header-row')[0].textContent
+    ).toEqual('');
+  });
+
+  it('should render table with empty array', () => {
+    const { container } = render(<DataTable data={[]} />);
     expect(
       container.getElementsByClassName('header-row')[0].textContent
     ).toEqual('');

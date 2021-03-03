@@ -1,8 +1,9 @@
 import React from 'react';
 import './DataTable.css';
 
-export const DataTable = ({ data = [{}], custom = {} }) => {
-    const headers = Object.keys(data[0]);
+export const DataTable = ({ data = [], custom = {} }) => {
+    const schema = data[0] || {};
+    const headers = Object.keys(schema);
     const Headers = headers.map((h, index) => getHeaderCell(h, index, custom));
 
     const Rows = data.map((r, index) => getRow(r, index, custom));
