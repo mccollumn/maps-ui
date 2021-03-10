@@ -1,17 +1,12 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-import './App.css';
-import {Users} from './pages/Users';
-import {Map} from './pages/Map';
-import {MapList} from './pages/MapList';
+import "./App.css";
+import { Users } from "./pages/Users";
+import { Map } from "./pages/Map";
+import { MapList } from "./pages/MapList";
 
-function App() {
+function App({ logOut }) {
   return (
     <div className="App">
       <Router>
@@ -33,6 +28,11 @@ function App() {
               <li>
                 <Link to="/maplist">Map List</Link>
               </li>
+              <li>
+                <Link onClick={logOut} to="#">
+                  Log Out
+                </Link>
+              </li>
             </ul>
           </nav>
 
@@ -40,20 +40,16 @@ function App() {
              renders the first one that matches the current URL. */}
           <Switch>
             <Route path="/map">
-              <Map/>
+              <Map />
             </Route>
-            <Route path="/about">
-              About
-            </Route>
+            <Route path="/about">About</Route>
             <Route path="/users">
               <Users />
             </Route>
             <Route path="/maplist">
-              <MapList/>
+              <MapList />
             </Route>
-            <Route path="/">
-              Home
-            </Route>
+            <Route path="/">Home</Route>
           </Switch>
         </div>
       </Router>

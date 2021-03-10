@@ -1,17 +1,28 @@
 import * as Realm from "realm-web";
 import { useForm } from "react-hook-form";
+import React from "react";
+import App from "../App";
 
 const REALM_APP_ID = process.env.REACT_APP_REALM_APP_ID;
 const app = new Realm.App({ id: REALM_APP_ID });
 
-export const Authentication = ({ children }) => {
-  if (!app.currentUser) {
-    return <Login />;
+export const Authentication = () => {
+  const [user, setUser] = React.useState(app.currentUser);
+
+  const logOut = () => {
+    if (user) {
+      user.logOut();
+      setUser(undefined);
+    }
+  };
+
+  if (!user) {
+    return <Login setUser={setUser} />;
   }
-  return children;
+  return <App logOut={logOut} />;
 };
 
-export const Login = () => {
+export const Login = ({ setUser }) => {
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = async (values) => {
     console.log(values);
@@ -22,7 +33,7 @@ export const Login = () => {
     try {
       const user = await app.logIn(credentials);
       console.log("User:", user);
-      window.location.reload();
+      setUser(user);
     } catch (err) {
       console.log("Login Error:", err);
     }
@@ -38,17 +49,3 @@ export const Login = () => {
     </div>
   );
 };
-
-// async function loginEmailPassword(email, password) {
-//   // Create an anonymous credential
-//   const credentials = Realm.Credentials.emailPassword(email, password);
-//   try {
-//     // Authenticate the user
-//     const user = await app.logIn(credentials);
-//     // `App.currentUser` updates to match the logged in user
-//     assert(user.id === app.currentUser.id);
-//     return user;
-//   } catch (err) {
-//     console.error("Failed to log in", err);
-//   }
-// }
