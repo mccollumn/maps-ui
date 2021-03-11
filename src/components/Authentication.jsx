@@ -2,6 +2,7 @@ import * as Realm from "realm-web";
 import { useForm } from "react-hook-form";
 import React from "react";
 import App from "../App";
+import "./Authentication.css";
 
 const REALM_APP_ID = process.env.REACT_APP_REALM_APP_ID;
 const app = new Realm.App({ id: REALM_APP_ID });
@@ -40,12 +41,20 @@ export const Login = ({ setUser }) => {
   };
 
   return (
-    <div className="login-page">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <input type="email" name="email" ref={register} />
-        <input type="password" name="password" ref={register} />
-        <input type="submit" />
-      </form>
+    <div className="login-container">
+      <div className="login-page">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="email">
+            <input type="email" name="email" ref={register} />
+          </div>
+          <div className="email">
+            <input type="password" name="password" ref={register} />
+          </div>
+          <div className="submit-button">
+            <input type="submit" />
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
