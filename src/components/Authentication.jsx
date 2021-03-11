@@ -44,12 +44,8 @@ export const Login = ({ setUser }) => {
     <div className="login-container">
       <div className="login-page">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="email">
-            <input type="email" name="email" ref={register} />
-          </div>
-          <div className="email">
-            <input type="password" name="password" ref={register} />
-          </div>
+          <input type="email" name="email" ref={register} />
+          <input type="password" name="password" ref={register} />
           <div className="submit-button">
             <input type="submit" />
           </div>

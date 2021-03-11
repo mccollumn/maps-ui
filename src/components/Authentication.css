@@ -6,36 +6,14 @@
   align-items: center;
 }
 
-.login-page {
+.login-page > form {
   background: darkgoldenrod;
   display: grid;
   grid-template-rows: repeat(3, 1fr);
-  row-gap: 2rem;
-  /* display: grid; */
-  /* justify-content: center;
-  align-items: center; */
-  /* grid-template-rows: auto;
-  row-gap: 12px; */
-  /* padding: 30px; */
+  row-gap: 1rem;
 }
-
-/* input[type="email"],
-[type="password"] {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-} */
 
 .submit-button {
   text-align: center;
   background: crimson;
 }
-
-/* input[type="submit"] {
-  display: block;
-  margin: 0 auto;
-} */
