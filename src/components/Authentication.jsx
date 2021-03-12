@@ -43,11 +43,28 @@ export const Login = ({ setUser }) => {
   return (
     <div className="login-container">
       <div className="login-page">
+        <h1>Mappity McMap Face</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <input type="email" name="email" ref={register} />
-          <input type="password" name="password" ref={register} />
+          <label for="email">Email Address:</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="example@domain.com"
+            title="Enter your email address"
+            required
+            ref={register}
+          />
+          <label for="password>">Password:</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="password"
+            title="Enter your password"
+            required
+            ref={register}
+          />
           <div className="submit-button">
-            <input type="submit" />
+            <input type="submit" value="Log In" />
           </div>
         </form>
       </div>

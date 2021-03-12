@@ -1,19 +1,33 @@
 .login-container {
   display: grid;
-  background: aqua;
   min-height: 100vh;
   justify-content: center;
   align-items: center;
 }
 
+.login-page {
+  border: 1px solid black;
+  border-radius: 20px;
+  padding: 24px;
+}
+
 .login-page > form {
-  background: darkgoldenrod;
   display: grid;
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: auto;
+  grid-template-rows: repeat(2, 5px 30px);
   row-gap: 1rem;
 }
 
 .submit-button {
   text-align: center;
-  background: crimson;
+}
+
+input {
+  padding: 5px;
+}
+
+h1 {
+  background: white;
+  margin-top: -52px;
+  padding: 8px;
 }
