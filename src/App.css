@@ -28,6 +28,48 @@
   color: #61dafb;
 }
 
+.app-body {
+  display: grid;
+  grid-template-columns: 2fr 5fr 5fr;
+  grid-template-rows: 24px 1fr 24px;
+  grid-template-areas:
+    "header page page"
+    "navigation page page"
+    "footer footer footer";
+  height: 100vh;
+}
+
+.app-page {
+  grid-area: page;
+}
+
+.header {
+  grid-area: header;
+}
+
+.footer {
+  grid-area: footer;
+  max-height: 24px;
+}
+
+.navigation {
+  grid-area: navigation;
+}
+
+.navigation ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 24px 0;
+}
+
+.navigation ul li {
+  padding: 6px 0;
+}
+
+.navigation a {
+  text-decoration: none;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -10,47 +10,50 @@ function App({ logOut }) {
   return (
     <div className="App">
       <Router>
-        <div>
-          <nav>
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/about">About</Link>
-              </li>
-              <li>
-                <Link to="/users">Users</Link>
-              </li>
-              <li>
-                <Link to="/map">Map</Link>
-              </li>
-              <li>
-                <Link to="/maplist">Map List</Link>
-              </li>
-              <li>
-                <Link onClick={logOut} to="#">
-                  Log Out
-                </Link>
-              </li>
-            </ul>
-          </nav>
-
-          {/* A <Switch> looks through its children <Route>s and
-             renders the first one that matches the current URL. */}
-          <Switch>
-            <Route path="/map">
-              <Map />
-            </Route>
-            <Route path="/about">About</Route>
-            <Route path="/users">
-              <Users />
-            </Route>
-            <Route path="/maplist">
-              <MapList />
-            </Route>
-            <Route path="/">Home</Route>
-          </Switch>
+        <div className="app-body">
+          <div className="header">Header</div>
+          <div className="navigation">
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/about">About</Link>
+                </li>
+                <li>
+                  <Link to="/users">Users</Link>
+                </li>
+                <li>
+                  <Link to="/map">Map</Link>
+                </li>
+                <li>
+                  <Link to="/maplist">Map List</Link>
+                </li>
+                <li>
+                  <Link onClick={logOut} to="#">
+                    Log Out
+                  </Link>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div className="app-page">
+            <Switch>
+              <Route path="/map">
+                <Map />
+              </Route>
+              <Route path="/about">About</Route>
+              <Route path="/users">
+                <Users />
+              </Route>
+              <Route path="/maplist">
+                <MapList />
+              </Route>
+              <Route path="/">Home</Route>
+            </Switch>
+          </div>
+          <div className="footer">Footer</div>
         </div>
       </Router>
     </div>
