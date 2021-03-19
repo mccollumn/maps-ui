@@ -107,7 +107,7 @@ const MapForm = () => {
         </div>
         <br />
         <div>
-          <input type="submit" value="Add Location" />
+          <button className="primary">Add Location</button>
         </div>
       </form>
     </div>

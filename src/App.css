@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  height: 100vh;
 }
 
 .App-logo {
@@ -67,6 +68,7 @@
 }
 
 .navigation a {
+  color: inherit;
   text-decoration: none;
 }
 

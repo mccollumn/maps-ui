@@ -1,10 +1,10 @@
 import React from "react";
-import useAxios from 'axios-hooks';
+import useAxios from "axios-hooks";
 
 export const Users = () => {
   const [{ data = { data: [] }, loading, error }, refetch] = useAxios(
-    'https://reqres.in/api/users?delay=1'
-  )
+    "https://reqres.in/api/users?delay=1"
+  );
 
   console.log("Axios: ", data, loading, error);
 
@@ -15,16 +15,17 @@ export const Users = () => {
       className="users"
       style={{
         display: "flex",
-        justifyContent: "center"
-      }}>
+        justifyContent: "center",
+      }}
+    >
       <div
         className="list"
         style={{
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
-          background: "aqua"
-        }}>
+        }}
+      >
         {UserList}
       </div>
     </div>
@@ -36,13 +37,7 @@ display: flex;
 flex-direction: column;
 align-items: flex-start; */
 
-const User = ({
-  avatar,
-  email,
-  first_name,
-  last_name,
-  id
-}) => {
+const User = ({ avatar, email, first_name, last_name, id }) => {
   return (
     <div
       key={id}
@@ -50,8 +45,8 @@ const User = ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-      }}>
-
+      }}
+    >
       <img src={avatar} />
       <div style={{ margin: "10px" }}>
         <div>{first_name}</div>
@@ -59,5 +54,5 @@ const User = ({
         <div>{email}</div>
       </div>
     </div>
-  )
-}
+  );
+};
