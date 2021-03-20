@@ -1,0 +1,13 @@
+form {
+  display: grid;
+  grid-template-columns: 80%;
+  grid-template-rows: 30px;
+  row-gap: 1rem;
+  margin: 24px;
+  justify-content: center;
+}
+
+.locationButton {
+  width: 25%;
+  justify-self: center;
+}

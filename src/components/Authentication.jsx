@@ -64,7 +64,7 @@ export const Login = ({ setUser }) => {
             ref={register}
           />
           <div className="submit-button">
-            <input type="submit" value="Log In" />
+            <button>Log In</button>
           </div>
         </form>
       </div>

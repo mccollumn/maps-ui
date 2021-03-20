@@ -32,6 +32,23 @@ button {
   box-shadow: none;
 }
 
+textarea {
+  padding-left: 5px;
+}
+
+input,
+textarea {
+  border: none;
+  border-bottom: 1px solid #0f15c9;
+  font-size: inherit;
+  font-family: inherit;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

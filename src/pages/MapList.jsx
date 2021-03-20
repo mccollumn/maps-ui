@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import _ from "lodash";
 import { DataTable } from "../components/DataTable";
 import useAxios from "axios-hooks";
+import "./MapList.css";
 
 export const MapList = () => {
   const [{ data = { data: [] }, loading, error }] = useAxios({
@@ -53,62 +54,42 @@ const MapForm = () => {
 
   return (
     <div className="location-form">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          margin: "24px",
-        }}
-      >
-        <div>
-          <input
-            type="text"
-            placeholder="Location Name"
-            name="name"
-            ref={register}
-          />
-        </div>
-        <div>
-          <input
-            type="number"
-            placeholder="Rating"
-            name="rating"
-            ref={register({
-              max: 5,
-            })}
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            placeholder="Comments"
-            name="comment"
-            ref={register}
-          />
-        </div>
-        <div>
-          <input
-            type="number"
-            step="any"
-            placeholder="Latitude"
-            name="lat"
-            ref={register}
-          />
-        </div>
-        <div>
-          <input
-            type="number"
-            step="any"
-            placeholder="Longitude"
-            name="long"
-            ref={register}
-          />
-        </div>
-        <br />
-        <div>
-          <button className="primary">Add Location</button>
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input
+          type="text"
+          placeholder="Location Name"
+          name="name"
+          ref={register}
+        />
+
+        <input
+          type="number"
+          placeholder="Rating"
+          name="rating"
+          ref={register({
+            max: 5,
+          })}
+        />
+
+        <textarea placeholder="Comments" ref={register} name="comment" />
+
+        <input
+          type="number"
+          step="any"
+          placeholder="Latitude"
+          name="lat"
+          ref={register}
+        />
+
+        <input
+          type="number"
+          step="any"
+          placeholder="Longitude"
+          name="long"
+          ref={register}
+        />
+
+        <button className="primary locationButton">Add Location</button>
       </form>
     </div>
   );
