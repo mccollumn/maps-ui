@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import React from "react";
 import App from "../App";
 import "./Authentication.css";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 const REALM_APP_ID = process.env.REACT_APP_REALM_APP_ID;
 const app = new Realm.App({ id: REALM_APP_ID });
@@ -18,9 +19,24 @@ export const Authentication = () => {
   };
 
   if (!user) {
-    return <Login setUser={setUser} />;
+    return (
+      <Router>
+        <Switch>
+          <Route path="/new-user">
+            <NewUser />
+          </Route>
+          <Route path="/">
+            <Login setUser={setUser} />
+          </Route>
+        </Switch>
+      </Router>
+    );
   }
   return <App logOut={logOut} />;
+};
+
+export const NewUser = () => {
+  return "New User";
 };
 
 export const Login = ({ setUser }) => {
@@ -42,31 +58,38 @@ export const Login = ({ setUser }) => {
 
   return (
     <div className="login-container">
-      <div className="login-page">
-        <h1>Mappity McMap Face</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <label for="email">Email Address:</label>
-          <input
-            type="email"
-            name="email"
-            placeholder="example@domain.com"
-            title="Enter your email address"
-            required
-            ref={register}
-          />
-          <label for="password>">Password:</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="password"
-            title="Enter your password"
-            required
-            ref={register}
-          />
-          <div className="submit-button">
-            <button>Log In</button>
-          </div>
-        </form>
+      <div>
+        <div className="login-page">
+          <h1>Mappity McMap Face</h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <label for="email">Email Address:</label>
+            <input
+              type="email"
+              name="email"
+              placeholder="example@domain.com"
+              title="Enter your email address"
+              required
+              ref={register}
+            />
+            <label for="password>">Password:</label>
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+              title="Enter your password"
+              required
+              ref={register}
+            />
+            <div className="submit-button">
+              <button>Log In</button>
+            </div>
+          </form>
+        </div>
+        <div className="new-user">
+          <Link className="new-user-link" to="/new-user">
+            Create New User
+          </Link>
+        </div>
       </div>
     </div>
   );

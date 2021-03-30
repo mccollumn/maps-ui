@@ -18,6 +18,11 @@ body {
   font-size: 16px;
 }
 
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
 .primary {
   background-color: #ef8354;
 }

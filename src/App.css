@@ -37,7 +37,8 @@
     "header page page"
     "navigation page page"
     "footer footer footer";
-  height: 100vh;
+  /* height: 100vh; */
+  min-height: 100vh;
 }
 
 .app-page {
