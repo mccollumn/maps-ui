@@ -4,6 +4,7 @@ import React from "react";
 import App from "../App";
 import "./Authentication.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { NewUser } from "./NewUser";
 
 const REALM_APP_ID = process.env.REACT_APP_REALM_APP_ID;
 const app = new Realm.App({ id: REALM_APP_ID });
@@ -23,7 +24,7 @@ export const Authentication = () => {
       <Router>
         <Switch>
           <Route path="/new-user">
-            <NewUser />
+            <NewUser app={app} Link={Link} />
           </Route>
           <Route path="/">
             <Login setUser={setUser} />
@@ -33,10 +34,6 @@ export const Authentication = () => {
     );
   }
   return <App logOut={logOut} />;
-};
-
-export const NewUser = () => {
-  return "New User";
 };
 
 export const Login = ({ setUser }) => {
@@ -57,12 +54,12 @@ export const Login = ({ setUser }) => {
   };
 
   return (
-    <div className="login-container">
+    <div className="auth-container">
       <div>
-        <div className="login-page">
+        <div className="auth-page">
           <h1>Mappity McMap Face</h1>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <label for="email">Email Address:</label>
+            <label htmlFor="email">Email Address:</label>
             <input
               type="email"
               name="email"
@@ -71,7 +68,7 @@ export const Login = ({ setUser }) => {
               required
               ref={register}
             />
-            <label for="password>">Password:</label>
+            <label htmlFor="password">Password:</label>
             <input
               type="password"
               name="password"
@@ -85,8 +82,8 @@ export const Login = ({ setUser }) => {
             </div>
           </form>
         </div>
-        <div className="new-user">
-          <Link className="new-user-link" to="/new-user">
+        <div className="auth-nav">
+          <Link className="user-link" to="/new-user">
             Create New User
           </Link>
         </div>

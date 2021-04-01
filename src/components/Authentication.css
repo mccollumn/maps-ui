@@ -1,20 +1,20 @@
-.login-container {
+.auth-container {
   display: grid;
   min-height: 100vh;
   justify-content: center;
   align-items: center;
 }
 
-.login-page {
+.auth-page {
   border: 1px solid black;
   border-radius: 20px;
   padding: 24px;
 }
 
-.login-page > form {
+.auth-page > form {
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: repeat(2, 5px 30px);
+  grid-template-rows: repeat(3, 5px 30px);
   row-gap: 1rem;
 }
 
@@ -22,7 +22,7 @@
   text-align: center;
 }
 
-.new-user {
+.auth-nav {
   text-align: right;
   margin: 8px 24px 0 0;
 }
@@ -37,7 +37,7 @@ h1 {
   padding: 8px;
 }
 
-a.new-user-link {
+a.user-link {
   color: #0f15c9;
   font-size: 14px;
 }
