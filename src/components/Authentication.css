@@ -9,6 +9,7 @@
   border: 1px solid black;
   border-radius: 20px;
   padding: 24px;
+  max-width: 306px;
 }
 
 .auth-page > form {
@@ -35,9 +36,16 @@ h1 {
   background: white;
   margin-top: -52px;
   padding: 8px;
+  text-align: center;
 }
 
 a.user-link {
   color: #0f15c9;
   font-size: 14px;
+}
+
+.auth-error {
+  color: red;
+  text-align: center;
+  text-transform: capitalize;
 }
