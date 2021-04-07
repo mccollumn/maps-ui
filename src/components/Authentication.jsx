@@ -5,6 +5,7 @@ import App from "../App";
 import "./Authentication.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { NewUser } from "./NewUser";
+import { FormErrors } from "./FormErrors";
 
 const REALM_APP_ID = process.env.REACT_APP_REALM_APP_ID;
 const app = new Realm.App({ id: REALM_APP_ID });
@@ -37,6 +38,7 @@ export const Authentication = () => {
 };
 
 export const Login = ({ setUser }) => {
+  const [error, setError] = React.useState("");
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = async (values) => {
     console.log(values);
@@ -48,8 +50,9 @@ export const Login = ({ setUser }) => {
       const user = await app.logIn(credentials);
       console.log("User:", user);
       setUser(user);
-    } catch (err) {
-      console.log("Login Error:", err);
+    } catch (ex) {
+      console.log("Login Error:", ex);
+      setError(ex.error);
     }
   };
 
@@ -81,6 +84,10 @@ export const Login = ({ setUser }) => {
               <button>Log In</button>
             </div>
           </form>
+          <div className="auth-error">
+            {error}
+            <FormErrors errors={errors} />
+          </div>
         </div>
         <div className="auth-nav">
           <Link className="user-link" to="/new-user">
