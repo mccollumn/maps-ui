@@ -3,9 +3,11 @@ import { useForm } from "react-hook-form";
 import _ from "lodash";
 import { DataTable } from "../components/DataTable";
 import useAxios from "axios-hooks";
+import { useHistory } from "react-router-dom";
 import "./MapList.css";
 
 export const MapList = () => {
+  let history = useHistory();
   const [{ data = { data: [] }, loading, error }] = useAxios({
     url: "/locationData",
     method: "get",
@@ -18,8 +20,7 @@ export const MapList = () => {
     lat: { name: "Latitude" },
     long: { name: "Longitude" },
     rowClick: (row) => {
-      const url = `https://www.google.com/maps/search/?api=1&query=${row.lat},${row.long}`;
-      window.open(url);
+      history.push(`/map?id=${row._id}`);
     },
   };
 

@@ -34,7 +34,7 @@ export const Authentication = () => {
       </Router>
     );
   }
-  return <App logOut={logOut} />;
+  return <App logOut={logOut} user={user} />;
 };
 
 export const Login = ({ setUser }) => {

@@ -6,7 +6,7 @@ import { Users } from "./pages/Users";
 import { Map } from "./pages/Map";
 import { MapList } from "./pages/MapList";
 
-function App({ logOut }) {
+function App({ logOut, user }) {
   return (
     <div className="App">
       <Router>
@@ -41,7 +41,7 @@ function App({ logOut }) {
           <div className="app-page">
             <Switch>
               <Route path="/map">
-                <Map />
+                <Map user={user} />
               </Route>
               <Route path="/about">About</Route>
               <Route path="/users">
