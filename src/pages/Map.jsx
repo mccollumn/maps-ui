@@ -1,6 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
 import GoogleMapReact from "google-map-react";
+import "./marker.css";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -45,18 +46,36 @@ export const Map = ({ user }) => {
     // Important! Always set the container height explicitly
     <div style={{ height: "100vh", width: "100%" }}>
       <GoogleMapReact
-        bootstrapURLKeys={{ key: GOOGLE_MAP_API_KEY }}
+        bootstrapURLKeys={{
+          key: GOOGLE_MAP_API_KEY,
+          libraries: ["places", "geometry", "drawing", "visualization"],
+        }}
         defaultCenter={defaultProps.center}
         defaultZoom={defaultProps.zoom}
+        options={{
+          backgroundColor: "red",
+          mapTypeControl: true,
+          clickableIcons: true,
+          streetViewControl: true,
+        }}
       >
-        <AnyReactComponent
+        <Marker
           lat={location.lat}
           lng={location.long}
-          text={location.name}
+          name={location.name}
+          color={"blue"}
         />
       </GoogleMapReact>
     </div>
   );
 };
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const Marker = ({ color, name }) => {
+  return (
+    <div
+      className="marker"
+      style={{ backgroundColor: color, cursor: "pointer" }}
+      title={name}
+    />
+  );
+};
