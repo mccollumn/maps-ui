@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import GoogleMapReact from "google-map-react";
 import { Popover } from "@material-ui/core";
+import "./Map.css";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -81,7 +82,12 @@ const Marker = ({ location = {} }) => {
   return (
     <div className="marker" title={location.name}>
       <MapPin onClick={handleClick} />
-      <Popover open={open} onClose={handleClose} anchorEl={anchorEl}>
+      <Popover
+        style={{ borderRadius: "12px" }}
+        open={open}
+        onClose={handleClose}
+        anchorEl={anchorEl}
+      >
         <DisplayPopover location={location} />
       </Popover>
     </div>
@@ -90,16 +96,17 @@ const Marker = ({ location = {} }) => {
 
 const DisplayPopover = ({ location = {} }) => {
   return (
-    <div>
-      <div>{location.name}</div>
-      <div>{location.rating}</div>
-      <div>
+    <div className="location-popover">
+      <div className="location-name overflow">{location.name}</div>
+      <div className="location-rating">{location.rating}</div>
+      <div className="location-comment overflow">{location.comment}</div>
+      <div className="location-map-link">
         <a
           href={`https://www.google.com/maps/search/?api=1&query=${location.lat},${location.long}`}
           target="_blank"
           rel="noreferrer"
         >
-          Google Link
+          View on Google Maps
         </a>
       </div>
     </div>

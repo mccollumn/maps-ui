@@ -1,0 +1,43 @@
+.location-popover {
+  display: grid;
+  gap: 2px;
+  text-align: center;
+  padding: 12px;
+  width: 200px;
+}
+
+.location-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.location-comment {
+  font-size: 13px;
+}
+
+.location-rating {
+  font-size: 13px;
+}
+
+.location-map-link {
+  font-size: 13px;
+  color: #427fed;
+}
+
+.location-map-link a:hover {
+  text-decoration: underline;
+}
+
+.MuiPopover-root > .MuiPaper-rounded {
+  border-radius: 12px;
+}
+
+.marker {
+  cursor: pointer;
+}
+
+.overflow {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
