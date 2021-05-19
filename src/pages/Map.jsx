@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import GoogleMapReact from "google-map-react";
 import { Popover } from "@material-ui/core";
 import "./Map.css";
+import { Ratings } from "../components/Ratings";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -98,7 +99,9 @@ const DisplayPopover = ({ location = {} }) => {
   return (
     <div className="location-popover">
       <div className="location-name overflow">{location.name}</div>
-      <div className="location-rating">{location.rating}</div>
+      <div className="location-rating">
+        <Ratings rating={location.rating} />
+      </div>
       <div className="location-comment overflow">{location.comment}</div>
       <div className="location-map-link">
         <a
