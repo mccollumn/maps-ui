@@ -13,6 +13,7 @@ export const Map = ({ user }) => {
   const locationId = new URLSearchParams(params.search).get("id");
 
   React.useEffect(() => {
+    if (!locationId) return;
     async function getLocation() {
       const resp = await user.functions.getLocationById(locationId);
       setLocation(resp);
@@ -88,6 +89,10 @@ const Marker = ({ location = {} }) => {
         open={open}
         onClose={handleClose}
         anchorEl={anchorEl}
+        anchorOrigin={{
+          vertical: "center",
+          horizontal: "center",
+        }}
       >
         <DisplayPopover location={location} />
       </Popover>
