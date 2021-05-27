@@ -6,15 +6,35 @@ import useAxios from "axios-hooks";
 import { useHistory } from "react-router-dom";
 import "./MapList.css";
 
-export const MapList = () => {
+export const MapList = ({ user }) => {
   let history = useHistory();
-  const [{ data = { data: [] }, loading, error }] = useAxios({
-    url: "/locationData",
-    method: "get",
-    baseURL: "http://localhost:3001",
-    headers: { "Access-Control-Allow-Origin": "*" },
-  });
-  console.log(data);
+  // const [{ data = { data: [] }, loading, error }] = useAxios({
+  //   url: "/locationData",
+  //   method: "get",
+  //   baseURL: "http://localhost:3001",
+  //   headers: { "Access-Control-Allow-Origin": "*" },
+  // });
+
+  const [locations, setLocations] = React.useState();
+  const [counter, setCounter] = React.useState(0);
+  const isPopulated = Array.isArray(locations);
+
+  React.useEffect(() => {
+    if (isPopulated) return;
+    async function getLocations() {
+      const resp = await user.functions.getAllLocations();
+      console.log("getLocations Call");
+      setLocations(resp);
+      setCounter(counter + 1);
+    }
+    getLocations();
+  }, [isPopulated, counter, user.functions]);
+  console.log("Locations:", locations, counter);
+
+  const refreshList = () => {
+    setLocations(undefined);
+    setCounter(counter + 1);
+  };
 
   const custom = {
     lat: { name: "Latitude" },
@@ -26,8 +46,9 @@ export const MapList = () => {
 
   return (
     <div>
+      <button onClick={refreshList}>Refresh List</button>
       <MapForm />
-      <DataTable data={data.data} custom={custom} />
+      <DataTable data={locations} custom={custom} />
     </div>
   );
 };

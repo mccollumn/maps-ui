@@ -48,7 +48,7 @@ function App({ logOut, user }) {
                 <Users />
               </Route>
               <Route path="/maplist">
-                <MapList />
+                <MapList user={user} />
               </Route>
               <Route path="/">Home</Route>
             </Switch>
