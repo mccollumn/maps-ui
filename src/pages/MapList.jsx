@@ -2,19 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
 import { DataTable } from "../components/DataTable";
-import useAxios from "axios-hooks";
 import { useHistory } from "react-router-dom";
 import "./MapList.css";
 
 export const MapList = ({ user }) => {
   let history = useHistory();
-  // const [{ data = { data: [] }, loading, error }] = useAxios({
-  //   url: "/locationData",
-  //   method: "get",
-  //   baseURL: "http://localhost:3001",
-  //   headers: { "Access-Control-Allow-Origin": "*" },
-  // });
-
   const [locations, setLocations] = React.useState();
   const [counter, setCounter] = React.useState(0);
   const isPopulated = Array.isArray(locations);
@@ -23,13 +15,11 @@ export const MapList = ({ user }) => {
     if (isPopulated) return;
     async function getLocations() {
       const resp = await user.functions.getAllLocations();
-      console.log("getLocations Call");
       setLocations(resp);
       setCounter(counter + 1);
     }
     getLocations();
   }, [isPopulated, counter, user.functions]);
-  console.log("Locations:", locations, counter);
 
   const refreshList = () => {
     setLocations(undefined);
@@ -47,28 +37,17 @@ export const MapList = ({ user }) => {
   return (
     <div>
       <button onClick={refreshList}>Refresh List</button>
-      <MapForm />
+      <MapForm user={user} refreshList={refreshList} />
       <DataTable data={locations} custom={custom} />
     </div>
   );
 };
 
-const MapForm = () => {
-  const [{ data = { data: [] }, loading, error }, executePost] = useAxios(
-    {
-      url: "/locationData",
-      method: "post",
-      baseURL: "http://localhost:3001",
-      headers: { "Access-Control-Allow-Origin": "*" },
-    },
-    { manual: true }
-  );
+const MapForm = ({ user, refreshList }) => {
   const { handleSubmit, register, errors } = useForm();
-  const onSubmit = (values) => {
-    console.log(values);
-    executePost({
-      data: values,
-    });
+  const onSubmit = async (values) => {
+    await user.functions.addLocation(values);
+    refreshList();
   };
   console.log(errors);
   let ratingValue = _.get(errors, "rating.ref.value");
