@@ -49,49 +49,60 @@ const MapForm = ({ user, refreshList }) => {
     await user.functions.addLocation(values);
     refreshList();
   };
-  console.log(errors);
-  let ratingValue = _.get(errors, "rating.ref.value");
-  console.log(`${ratingValue} is not a valid rating`);
 
   return (
     <div className="location-form">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input
+        <InputElement
           type="text"
           placeholder="Location Name"
           name="name"
-          ref={register}
+          register={register({ required: "Please enter a name" })}
+          errors={errors}
         />
 
-        <input
+        <InputElement
           type="number"
           placeholder="Rating"
           name="rating"
-          ref={register({
-            max: 5,
+          register={register({
+            max: { value: 5, message: "Rating must be between 1 and 5" },
           })}
+          errors={errors}
         />
 
         <textarea placeholder="Comments" ref={register} name="comment" />
 
-        <input
+        <InputElement
           type="number"
           step="any"
           placeholder="Latitude"
           name="lat"
-          ref={register}
+          register={register({ required: "Please enter a latitude" })}
+          errors={errors}
         />
 
-        <input
+        <InputElement
           type="number"
           step="any"
           placeholder="Longitude"
           name="long"
-          ref={register}
+          register={register({ required: "Please enter a longitude" })}
+          errors={errors}
         />
 
         <button className="primary locationButton">Add Location</button>
       </form>
+    </div>
+  );
+};
+
+const InputElement = ({ register, errors = {}, ...props }) => {
+  const errorMsg = _.get(errors[props.name], "message");
+  return (
+    <div className="input-element">
+      <input ref={register} {...props} />
+      <div className="error-msg">{errorMsg}</div>
     </div>
   );
 };
