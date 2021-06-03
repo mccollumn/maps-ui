@@ -11,3 +11,13 @@ form {
   width: 25%;
   justify-self: center;
 }
+
+.input-element {
+  display: grid;
+}
+
+.error-msg {
+  color: red;
+  text-align: right;
+  font-size: 14px;
+}
