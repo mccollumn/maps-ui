@@ -38,6 +38,7 @@ export const MapList = ({ user }) => {
     <div>
       <button onClick={refreshList}>Refresh List</button>
       <MapForm user={user} refreshList={refreshList} />
+      <LocationTable data={locations} />
       <DataTable data={locations} custom={custom} />
     </div>
   );
@@ -103,6 +104,24 @@ const InputElement = ({ register, errors = {}, ...props }) => {
     <div className="input-element">
       <input ref={register} {...props} />
       <div className="error-msg">{errorMsg}</div>
+    </div>
+  );
+};
+
+const LocationTable = ({ data = [] }) => {
+  return data.map(LocationTableRow);
+};
+
+const LocationTableRow = (row, index) => {
+  return (
+    <div className="location-table-row" key={`row-${index}`}>
+      <div className="location-table-image">Image</div>
+      <div className="location-table-name">{row.name}</div>
+      <div className="location-table-rating">{row.rating}</div>
+      <div className="location-table-description">{row.comment}</div>
+      <div className="location-table-coordinates">
+        {row.lat}, {row.long}
+      </div>
     </div>
   );
 };
