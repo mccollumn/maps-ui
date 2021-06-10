@@ -22,12 +22,25 @@ form {
   font-size: 14px;
 }
 
+.location-table {
+  display: grid;
+  justify-content: center;
+}
+
 .location-table-row {
   justify-content: center;
   display: grid;
-  grid-template-columns: 125px 250px;
+  grid-template-columns: 128px 250px;
+  gap: 5px;
+  margin-bottom: 12px;
+  height: 128px;
 }
 
 .location-table-image {
   grid-row: 1 / span 4;
+}
+
+.location-table-name {
+  font-weight: 500;
+  margin-top: 10px;
 }

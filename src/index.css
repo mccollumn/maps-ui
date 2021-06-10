@@ -27,6 +27,14 @@ a {
   background-color: #ef8354;
 }
 
+.accent {
+  background-color: #0f15c9;
+}
+
+.light-gray {
+  background-color: #f9f9f9;
+}
+
 button {
   border: solid 1px black;
   border-radius: 6px;

@@ -4,6 +4,9 @@ import _ from "lodash";
 import { DataTable } from "../components/DataTable";
 import { useHistory } from "react-router-dom";
 import "./MapList.css";
+import { Ratings } from "../components/Ratings";
+
+const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 export const MapList = ({ user }) => {
   let history = useHistory();
@@ -109,19 +112,27 @@ const InputElement = ({ register, errors = {}, ...props }) => {
 };
 
 const LocationTable = ({ data = [] }) => {
-  return data.map(LocationTableRow);
+  const rows = data.map(LocationTableRow);
+  return <div className="location-table">{rows}</div>;
 };
 
 const LocationTableRow = (row, index) => {
   return (
-    <div className="location-table-row" key={`row-${index}`}>
-      <div className="location-table-image">Image</div>
-      <div className="location-table-name">{row.name}</div>
-      <div className="location-table-rating">{row.rating}</div>
-      <div className="location-table-description">{row.comment}</div>
-      <div className="location-table-coordinates">
-        {row.lat}, {row.long}
+    <div className="location-table-row light-gray" key={`row-${index}`}>
+      <div className="location-table-image">
+        <img
+          src={`https://maps.googleapis.com/maps/api/staticmap?markers=${row.lat},${row.long}&size=128x128&zoom=10&key=${GOOGLE_MAP_API_KEY}`}
+          alt="Map Thumbnail"
+        />
       </div>
+      <div className="location-table-name">{row.name}</div>
+      <div className="location-table-rating">
+        <Ratings rating={row.rating} />
+      </div>
+      <div className="location-table-description">{row.comment}</div>
+      {/* <div className="location-table-coordinates"> */}
+      {/* {row.lat}, {row.long}
+      </div> */}
     </div>
   );
 };
