@@ -34,6 +34,13 @@ form {
   gap: 5px;
   margin-bottom: 12px;
   height: 128px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.location-table-row:hover {
+  border-left: 8px solid red;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
 }
 
 .location-table-image {

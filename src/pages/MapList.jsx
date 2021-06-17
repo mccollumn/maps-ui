@@ -117,8 +117,16 @@ const LocationTable = ({ data = [] }) => {
 };
 
 const LocationTableRow = (row, index) => {
+  let history = useHistory();
+  const openMap = () => {
+    history.push(`/map?id=${row._id}`);
+  };
   return (
-    <div className="location-table-row light-gray" key={`row-${index}`}>
+    <div
+      className="location-table-row light-gray"
+      key={`row-${index}`}
+      onClick={openMap}
+    >
       <div className="location-table-image">
         <img
           src={`https://maps.googleapis.com/maps/api/staticmap?markers=${row.lat},${row.long}&size=128x128&zoom=10&key=${GOOGLE_MAP_API_KEY}`}
