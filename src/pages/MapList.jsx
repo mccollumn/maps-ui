@@ -1,15 +1,15 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
-import { DataTable } from "../components/DataTable";
 import { useHistory } from "react-router-dom";
 import "./MapList.css";
 import { Ratings } from "../components/Ratings";
+import { AddLocation } from "@material-ui/icons";
+import { AddLocationModal } from "../components/AddLocationModal";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 export const MapList = ({ user }) => {
-  let history = useHistory();
   const [locations, setLocations] = React.useState();
   const [counter, setCounter] = React.useState(0);
   const isPopulated = Array.isArray(locations);
@@ -29,20 +29,12 @@ export const MapList = ({ user }) => {
     setCounter(counter + 1);
   };
 
-  const custom = {
-    lat: { name: "Latitude" },
-    long: { name: "Longitude" },
-    rowClick: (row) => {
-      history.push(`/map?id=${row._id}`);
-    },
-  };
-
   return (
     <div>
       <button onClick={refreshList}>Refresh List</button>
+      <AddLocationModal />
       <MapForm user={user} refreshList={refreshList} />
       <LocationTable data={locations} />
-      <DataTable data={locations} custom={custom} />
     </div>
   );
 };
@@ -138,9 +130,6 @@ const LocationTableRow = (row, index) => {
         <Ratings rating={row.rating} />
       </div>
       <div className="location-table-description">{row.comment}</div>
-      {/* <div className="location-table-coordinates"> */}
-      {/* {row.lat}, {row.long}
-      </div> */}
     </div>
   );
 };
