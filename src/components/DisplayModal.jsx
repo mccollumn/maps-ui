@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "@material-ui/core/Modal";
 
-export const AddLocationModal = () => {
+export const DisplayModal = ({ children = [] }) => {
   function getModalStyle() {
     const top = 50;
     const left = 50;
@@ -11,11 +11,14 @@ export const AddLocationModal = () => {
       left: `${left}%`,
       transform: `translate(-${top}%, -${left}%)`,
       position: "absolute",
+      width: "75%",
+      height: "75%",
+      background: "white",
     };
   }
 
   const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => {
     setOpen(true);
@@ -25,11 +28,13 @@ export const AddLocationModal = () => {
     setOpen(false);
   };
 
+  // Adding click handler to first child
+  const action = React.cloneElement(children[0], { onClick: handleOpen });
+  const content = React.cloneElement(children[1], { handleClose });
+
   return (
     <div>
-      <button type="button" onClick={handleOpen}>
-        Open Modal
-      </button>
+      {action}
       <Modal
         open={open}
         onClose={handleClose}
@@ -37,9 +42,9 @@ export const AddLocationModal = () => {
         aria-describedby="simple-modal-description"
       >
         <div style={modalStyle}>
-          <div style={{ width: "150px", background: "aqua" }}>
-            Modal me this
-          </div>
+          {/* <div style={{ width: "75%", height: "75%", background: "aqua" }}> */}
+          {content}
+          {/* </div> */}
         </div>
       </Modal>
     </div>

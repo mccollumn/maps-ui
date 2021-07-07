@@ -4,8 +4,7 @@ import _ from "lodash";
 import { useHistory } from "react-router-dom";
 import "./MapList.css";
 import { Ratings } from "../components/Ratings";
-import { AddLocation } from "@material-ui/icons";
-import { AddLocationModal } from "../components/AddLocationModal";
+import { DisplayModal } from "../components/DisplayModal";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -29,21 +28,32 @@ export const MapList = ({ user }) => {
     setCounter(counter + 1);
   };
 
+  const ModalAction = ({ onClick }) => {
+    return (
+      <button type="button" onClick={onClick} className="primary">
+        Add Location
+      </button>
+    );
+  };
+
   return (
     <div>
       <button onClick={refreshList}>Refresh List</button>
-      <AddLocationModal />
-      <MapForm user={user} refreshList={refreshList} />
+      <DisplayModal>
+        <ModalAction />
+        <MapForm user={user} refreshList={refreshList} />
+      </DisplayModal>
       <LocationTable data={locations} />
     </div>
   );
 };
 
-const MapForm = ({ user, refreshList }) => {
+const MapForm = ({ user, refreshList, handleClose }) => {
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = async (values) => {
     await user.functions.addLocation(values);
     refreshList();
+    handleClose();
   };
 
   return (
