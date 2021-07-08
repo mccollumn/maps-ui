@@ -50,3 +50,7 @@ form {
   font-weight: 500;
   margin-top: 10px;
 }
+
+.location-form {
+  width: 100%;
+}

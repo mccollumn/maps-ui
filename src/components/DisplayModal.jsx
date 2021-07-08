@@ -14,6 +14,9 @@ export const DisplayModal = ({ children = [] }) => {
       width: "75%",
       height: "75%",
       background: "white",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
     };
   }
 
