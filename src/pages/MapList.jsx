@@ -140,6 +140,7 @@ const LocationTableRow = (row, index) => {
         <Ratings rating={row.rating} />
       </div>
       <div className="location-table-description">{row.comment}</div>
+      <div className="location-control-panel">Delete</div>
     </div>
   );
 };

@@ -29,7 +29,7 @@ form {
 .location-table-row {
   justify-content: center;
   display: grid;
-  grid-template-columns: 128px 250px;
+  grid-template-columns: 128px 250px 0px;
   gap: 5px;
   height: 128px;
   cursor: pointer;
@@ -49,6 +49,31 @@ form {
 .location-table-name {
   font-weight: 500;
   margin-top: 10px;
+}
+
+.location-table-rating {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 2;
+  grid-row-end: 2;
+}
+
+.location-table-description {
+  grid-column-start: 2;
+  grid-column-end: 2;
+  grid-row-start: 3;
+  grid-row-end: 4;
+}
+
+.location-control-panel {
+  display: none;
+  background: blueviolet;
+  grid-row: 1 / span 4;
+  margin-left: -50px;
+}
+
+.location-table-row:hover > .location-control-panel {
+  display: block;
 }
 
 .location-form {
