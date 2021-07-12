@@ -5,20 +5,24 @@ import { useHistory } from "react-router-dom";
 import "./MapList.css";
 import { Ratings } from "../components/Ratings";
 import { DisplayModal } from "../components/DisplayModal";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
 export const MapList = ({ user }) => {
   const [locations, setLocations] = React.useState();
   const [counter, setCounter] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(false);
   const isPopulated = Array.isArray(locations);
 
   React.useEffect(() => {
     if (isPopulated) return;
+    setIsLoading(true);
     async function getLocations() {
       const resp = await user.functions.getAllLocations();
       setLocations(resp);
       setCounter(counter + 1);
+      setIsLoading(false);
     }
     getLocations();
   }, [isPopulated, counter, user.functions]);
@@ -43,7 +47,7 @@ export const MapList = ({ user }) => {
         <ModalAction />
         <MapForm user={user} refreshList={refreshList} />
       </DisplayModal>
-      <LocationTable data={locations} />
+      {isLoading ? <LinearProgress /> : <LocationTable data={locations} />}
     </div>
   );
 };
