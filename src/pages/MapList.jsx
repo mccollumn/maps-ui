@@ -9,28 +9,100 @@ import LinearProgress from "@material-ui/core/LinearProgress";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
+const locationsReducer = (state, action) => {
+  switch (action.type) {
+    case "LOCATIONS_FETCH_INIT":
+      return {
+        ...state,
+        isLoading: true,
+        isPopulated: false,
+        isError: false,
+      };
+    case "LOCATIONS_FETCH_SUCCESS":
+      return {
+        ...state,
+        isLoading: false,
+        isPopulated: true,
+        isError: false,
+        data: action.payload,
+      };
+    case "LOCATIONS_FETCH_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+        isPopulated: false,
+        isError: true,
+      };
+    case "ADD_LOCATION":
+      return {
+        ...state,
+        isPopulated: false,
+      };
+    case "REFRESH_LOCATIONS":
+      return {
+        ...state,
+        isPopulated: false,
+      };
+    default:
+      throw new Error();
+  }
+};
+
 export const MapList = ({ user }) => {
-  const [locations, setLocations] = React.useState();
-  const [counter, setCounter] = React.useState(0);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const isPopulated = Array.isArray(locations);
+  // const [locations, setLocations] = React.useState();
+  // const [counter, setCounter] = React.useState(0);
+  // const [isLoading, setIsLoading] = React.useState(false);
+  // const isPopulated = Array.isArray(locations);
+
+  // React.useEffect(() => {
+  //   if (isPopulated) return;
+  //   setIsLoading(true);
+  //   async function getLocations() {
+  //     const resp = await user.functions.getAllLocations();
+  //     setLocations(resp);
+  //     setCounter(counter + 1);
+  //     setIsLoading(false);
+  //   }
+  //   getLocations();
+  // }, [isPopulated, counter, user.functions]);
+
+  // const refreshList = () => {
+  //   setLocations(undefined);
+  //   setCounter(counter + 1);
+  // };
+
+  const [locations, dispatchLocations] = React.useReducer(locationsReducer, {
+    data: [],
+    isLoading: false,
+    isPopulated: false,
+    isError: false,
+  });
 
   React.useEffect(() => {
-    if (isPopulated) return;
-    setIsLoading(true);
+    if (locations.isPopulated) return;
     async function getLocations() {
-      const resp = await user.functions.getAllLocations();
-      setLocations(resp);
-      setCounter(counter + 1);
-      setIsLoading(false);
+      dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
+      await user.functions
+        .getAllLocations()
+        .then((result) => {
+          dispatchLocations({
+            type: "LOCATIONS_FETCH_SUCCESS",
+            payload: result,
+          });
+        })
+        .catch(() => dispatchLocations({ type: "LOCATIONS_FETCH_FAILURE" }));
     }
     getLocations();
-  }, [isPopulated, counter, user.functions]);
+  }, [locations.isPopulated, user.functions]);
 
   const refreshList = () => {
-    setLocations(undefined);
-    setCounter(counter + 1);
+    dispatchLocations({ type: "REFRESH_LOCATIONS" });
   };
+
+  async function addLocation(values) {
+    await user.functions.addLocation(values);
+    dispatchLocations({ type: "ADD_LOCATION" });
+  }
 
   const ModalAction = ({ onClick }) => {
     return (
@@ -45,18 +117,26 @@ export const MapList = ({ user }) => {
       <button onClick={refreshList}>Refresh List</button>
       <DisplayModal>
         <ModalAction />
-        <MapForm user={user} refreshList={refreshList} />
+        <MapForm
+          /*user={user} refreshList={refreshList}*/ addLocation={addLocation}
+        />
       </DisplayModal>
-      {isLoading ? <LinearProgress /> : <LocationTable data={locations} />}
+      {locations.isError && <p>Oops... Something went wrong.</p>}
+      {locations.isLoading ? (
+        <LinearProgress />
+      ) : (
+        <LocationTable data={locations.data} />
+      )}
     </div>
   );
 };
 
-const MapForm = ({ user, refreshList, handleClose }) => {
+const MapForm = ({ /*user, refreshList,*/ addLocation, handleClose }) => {
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = async (values) => {
-    await user.functions.addLocation(values);
-    refreshList();
+    // await user.functions.addLocation(values);
+    // refreshList();
+    await addLocation(values);
     handleClose();
   };
 
