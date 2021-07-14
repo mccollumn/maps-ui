@@ -33,14 +33,6 @@ const locationsReducer = (state, action) => {
         isPopulated: false,
         isError: true,
       };
-    case "ADD_LOCATION":
-      (async () => {
-        await action.payload.user.functions.addLocation(action.payload.values);
-      })();
-      return {
-        ...state,
-        isPopulated: false,
-      };
     case "REFRESH_LOCATIONS":
       return {
         ...state,
@@ -103,10 +95,9 @@ export const MapList = ({ user }) => {
   };
 
   async function addLocation(values) {
-    dispatchLocations({
-      type: "ADD_LOCATION",
-      payload: { user: user, values: values },
-    });
+    dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
+    await user.functions.addLocation(values);
+    dispatchLocations({ type: "REFRESH_LOCATIONS" });
   }
 
   const ModalAction = ({ onClick }) => {
