@@ -34,6 +34,9 @@ const locationsReducer = (state, action) => {
         isError: true,
       };
     case "ADD_LOCATION":
+      (async () => {
+        await action.payload.user.functions.addLocation(action.payload.values);
+      })();
       return {
         ...state,
         isPopulated: false,
@@ -80,8 +83,8 @@ export const MapList = ({ user }) => {
 
   React.useEffect(() => {
     if (locations.isPopulated) return;
-    async function getLocations() {
-      dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
+    dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
+    (async () => {
       await user.functions
         .getAllLocations()
         .then((result) => {
@@ -91,8 +94,7 @@ export const MapList = ({ user }) => {
           });
         })
         .catch(() => dispatchLocations({ type: "LOCATIONS_FETCH_FAILURE" }));
-    }
-    getLocations();
+    })();
   }, [locations.isPopulated, user.functions]);
 
   const refreshList = () => {
@@ -100,8 +102,10 @@ export const MapList = ({ user }) => {
   };
 
   async function addLocation(values) {
-    await user.functions.addLocation(values);
-    dispatchLocations({ type: "ADD_LOCATION" });
+    dispatchLocations({
+      type: "ADD_LOCATION",
+      payload: { user: user, values: values },
+    });
   }
 
   const ModalAction = ({ onClick }) => {
