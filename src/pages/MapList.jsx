@@ -84,16 +84,17 @@ export const MapList = ({ user }) => {
   React.useEffect(() => {
     if (locations.isPopulated) return;
     dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
+
     (async () => {
-      await user.functions
-        .getAllLocations()
-        .then((result) => {
-          dispatchLocations({
-            type: "LOCATIONS_FETCH_SUCCESS",
-            payload: result,
-          });
-        })
-        .catch(() => dispatchLocations({ type: "LOCATIONS_FETCH_FAILURE" }));
+      try {
+        const result = await user.functions.getAllLocations();
+        dispatchLocations({
+          type: "LOCATIONS_FETCH_SUCCESS",
+          payload: result,
+        });
+      } catch {
+        dispatchLocations({ type: "LOCATIONS_FETCH_FAILURE" });
+      }
     })();
   }, [locations.isPopulated, user.functions]);
 
