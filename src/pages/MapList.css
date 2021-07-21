@@ -67,13 +67,16 @@ form {
 
 .location-control-panel {
   display: none;
-  background: blueviolet;
+  background: #ef8354;
   grid-row: 1 / span 4;
   margin-left: -50px;
+  height: 128px;
+  justify-content: center;
+  align-items: center;
 }
 
 .location-table-row:hover > .location-control-panel {
-  display: block;
+  display: flex;
 }
 
 .location-form {

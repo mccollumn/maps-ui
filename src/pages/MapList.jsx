@@ -6,6 +6,7 @@ import "./MapList.css";
 import { Ratings } from "../components/Ratings";
 import { DisplayModal } from "../components/DisplayModal";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -44,28 +45,6 @@ const locationsReducer = (state, action) => {
 };
 
 export const MapList = ({ user }) => {
-  // const [locations, setLocations] = React.useState();
-  // const [counter, setCounter] = React.useState(0);
-  // const [isLoading, setIsLoading] = React.useState(false);
-  // const isPopulated = Array.isArray(locations);
-
-  // React.useEffect(() => {
-  //   if (isPopulated) return;
-  //   setIsLoading(true);
-  //   async function getLocations() {
-  //     const resp = await user.functions.getAllLocations();
-  //     setLocations(resp);
-  //     setCounter(counter + 1);
-  //     setIsLoading(false);
-  //   }
-  //   getLocations();
-  // }, [isPopulated, counter, user.functions]);
-
-  // const refreshList = () => {
-  //   setLocations(undefined);
-  //   setCounter(counter + 1);
-  // };
-
   const [locations, dispatchLocations] = React.useReducer(locationsReducer, {
     data: [],
     isLoading: false,
@@ -97,7 +76,13 @@ export const MapList = ({ user }) => {
   async function addLocation(values) {
     dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
     await user.functions.addLocation(values);
-    dispatchLocations({ type: "REFRESH_LOCATIONS" });
+    refreshList();
+  }
+
+  async function deleteLocation(id) {
+    dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
+    await user.functions.deleteLocation(id);
+    refreshList();
   }
 
   const ModalAction = ({ onClick }) => {
@@ -113,25 +98,21 @@ export const MapList = ({ user }) => {
       <button onClick={refreshList}>Refresh List</button>
       <DisplayModal>
         <ModalAction />
-        <MapForm
-          /*user={user} refreshList={refreshList}*/ addLocation={addLocation}
-        />
+        <MapForm addLocation={addLocation} />
       </DisplayModal>
       {locations.isError && <p>Oops... Something went wrong.</p>}
       {locations.isLoading ? (
         <LinearProgress />
       ) : (
-        <LocationTable data={locations.data} />
+        <LocationTable data={locations.data} onDelete={deleteLocation} />
       )}
     </div>
   );
 };
 
-const MapForm = ({ /*user, refreshList,*/ addLocation, handleClose }) => {
+const MapForm = ({ addLocation, handleClose }) => {
   const { handleSubmit, register, errors } = useForm();
   const onSubmit = async (values) => {
-    // await user.functions.addLocation(values);
-    // refreshList();
     await addLocation(values);
     handleClose();
   };
@@ -193,16 +174,22 @@ const InputElement = ({ register, errors = {}, ...props }) => {
   );
 };
 
-const LocationTable = ({ data = [] }) => {
-  const rows = data.map(LocationTableRow);
+const LocationTable = ({ data = [], onDelete }) => {
+  const rows = data.map((row, index) => LocationTableRow(row, index, onDelete));
   return <div className="location-table">{rows}</div>;
 };
 
-const LocationTableRow = (row, index) => {
+const LocationTableRow = (row, index, onDelete) => {
   let history = useHistory();
   const openMap = () => {
     history.push(`/map?id=${row._id}`);
   };
+
+  const deleteHandler = (event) => {
+    event.stopPropagation();
+    onDelete(row._id);
+  };
+
   return (
     <div
       className="location-table-row light-gray"
@@ -220,7 +207,9 @@ const LocationTableRow = (row, index) => {
         <Ratings rating={row.rating} />
       </div>
       <div className="location-table-description">{row.comment}</div>
-      <div className="location-control-panel">Delete</div>
+      <div className="location-control-panel">
+        <DeleteForeverIcon onClick={deleteHandler} />
+      </div>
     </div>
   );
 };
