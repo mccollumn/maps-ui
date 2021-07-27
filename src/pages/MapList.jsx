@@ -208,8 +208,19 @@ const LocationTableRow = (row, index, onDelete) => {
       </div>
       <div className="location-table-description">{row.comment}</div>
       <div className="location-control-panel">
-        <DeleteForeverIcon onClick={deleteHandler} />
+        <DisplayModal height="200px" width="300px">
+          <DeleteForeverIcon />
+          <DeleteConfirmation deleteHandler={deleteHandler} />
+        </DisplayModal>
       </div>
     </div>
   );
 };
+
+const DeleteConfirmation = ({ deleteHandler, handleClose }) => (
+  <>
+    <div>Are you sure?</div>
+    <button onClick={deleteHandler}>Yes</button>
+    <button onClick={handleClose}>Cancel</button>
+  </>
+);

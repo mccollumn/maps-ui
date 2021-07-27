@@ -1,7 +1,11 @@
 import React from "react";
 import Modal from "@material-ui/core/Modal";
 
-export const DisplayModal = ({ children = [] }) => {
+export const DisplayModal = ({
+  children = [],
+  height = "75%",
+  width = "75%",
+}) => {
   function getModalStyle() {
     const top = 50;
     const left = 50;
@@ -11,8 +15,8 @@ export const DisplayModal = ({ children = [] }) => {
       left: `${left}%`,
       transform: `translate(-${top}%, -${left}%)`,
       position: "absolute",
-      width: "75%",
-      height: "75%",
+      width: width,
+      height: height,
       background: "white",
       display: "flex",
       justifyContent: "center",
@@ -23,11 +27,13 @@ export const DisplayModal = ({ children = [] }) => {
   const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = (event) => {
+    event.stopPropagation();
     setOpen(true);
   };
 
-  const handleClose = () => {
+  const handleClose = (event) => {
+    event.stopPropagation();
     setOpen(false);
   };
 
@@ -44,11 +50,7 @@ export const DisplayModal = ({ children = [] }) => {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >
-        <div style={modalStyle}>
-          {/* <div style={{ width: "75%", height: "75%", background: "aqua" }}> */}
-          {content}
-          {/* </div> */}
-        </div>
+        <div style={modalStyle}>{content}</div>
       </Modal>
     </div>
   );
