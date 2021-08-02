@@ -52,13 +52,11 @@ export const MapList = ({ user }) => {
     isError: false,
   });
 
-  React.useEffect(() => {
-    if (locations.isPopulated) return;
-    dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
-
-    (async () => {
+  const getData = React.useCallback(
+    async (searchTerm = "") => {
+      console.log("getData");
       try {
-        const result = await user.functions.getAllLocations();
+        const result = await user.functions.getLocations(searchTerm);
         dispatchLocations({
           type: "LOCATIONS_FETCH_SUCCESS",
           payload: result,
@@ -66,8 +64,15 @@ export const MapList = ({ user }) => {
       } catch {
         dispatchLocations({ type: "LOCATIONS_FETCH_FAILURE" });
       }
-    })();
-  }, [locations.isPopulated, user.functions]);
+    },
+    [user.functions]
+  );
+
+  React.useEffect(() => {
+    if (locations.isPopulated) return;
+    dispatchLocations({ type: "LOCATIONS_FETCH_INIT" });
+    getData();
+  }, [locations.isPopulated, user.functions, getData]);
 
   const refreshList = () => {
     dispatchLocations({ type: "REFRESH_LOCATIONS" });
@@ -85,6 +90,10 @@ export const MapList = ({ user }) => {
     refreshList();
   }
 
+  async function searchLocations(data) {
+    getData(data.search);
+  }
+
   const ModalAction = ({ onClick }) => {
     return (
       <button type="button" onClick={onClick} className="primary">
@@ -100,6 +109,7 @@ export const MapList = ({ user }) => {
         <ModalAction />
         <MapForm addLocation={addLocation} />
       </DisplayModal>
+      <SearchBox searchHandler={searchLocations} />
       {locations.isError && <p>Oops... Something went wrong.</p>}
       {locations.isLoading ? (
         <LinearProgress />
@@ -224,3 +234,20 @@ const DeleteConfirmation = ({ deleteHandler, handleClose }) => (
     <button onClick={handleClose}>Cancel</button>
   </>
 );
+
+const SearchBox = ({ searchHandler }) => {
+  const { register, handleSubmit } = useForm();
+
+  return (
+    <form onSubmit={handleSubmit(searchHandler)}>
+      <InputElement
+        type="text"
+        placeholder="Search"
+        name="search"
+        register={register}
+      />
+
+      <button>Search</button>
+    </form>
+  );
+};
