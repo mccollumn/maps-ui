@@ -6,9 +6,28 @@ import "./MapList.css";
 import { Ratings } from "../components/Ratings";
 import { DisplayModal } from "../components/DisplayModal";
 import LinearProgress from "@material-ui/core/LinearProgress";
+import TextField from "@material-ui/core/TextField";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
+
+const SORT = {
+  NAME: {
+    value: "NAME",
+    label: "Name",
+    key: "name",
+    order: "asc",
+    handler: (l) => l.name.toLowerCase(),
+  },
+  RATING: {
+    value: "RATING",
+    label: "Rating",
+    key: "rating",
+    order: "desc",
+    handler: "rating",
+  },
+};
 
 const locationsReducer = (state, action) => {
   switch (action.type) {
@@ -52,9 +71,10 @@ export const MapList = ({ user }) => {
     isError: false,
   });
 
+  const [sort, setSort] = React.useState(SORT.NAME);
+
   const getData = React.useCallback(
     async (searchTerm = "") => {
-      console.log("getData");
       try {
         const result = await user.functions.getLocations(searchTerm);
         dispatchLocations({
@@ -102,6 +122,8 @@ export const MapList = ({ user }) => {
     );
   };
 
+  const sortedLocations = _.orderBy(locations.data, [sort.handler], sort.order);
+
   return (
     <div>
       <button onClick={refreshList}>Refresh List</button>
@@ -110,11 +132,12 @@ export const MapList = ({ user }) => {
         <MapForm addLocation={addLocation} />
       </DisplayModal>
       <SearchBox searchHandler={searchLocations} />
+      <SortBox setSort={setSort} />
       {locations.isError && <p>Oops... Something went wrong.</p>}
       {locations.isLoading ? (
         <LinearProgress />
       ) : (
-        <LocationTable data={locations.data} onDelete={deleteLocation} />
+        <LocationTable data={sortedLocations} onDelete={deleteLocation} />
       )}
     </div>
   );
@@ -249,5 +272,20 @@ const SearchBox = ({ searchHandler }) => {
 
       <button>Search</button>
     </form>
+  );
+};
+
+const SortBox = ({ setSort }) => {
+  return (
+    <Autocomplete
+      id="combo-box-demo"
+      options={[SORT.NAME, SORT.RATING]}
+      getOptionLabel={(option) => option.label}
+      style={{ width: 300 }}
+      renderInput={(params) => (
+        <TextField {...params} label="Sort By" variant="outlined" />
+      )}
+      onChange={(event, value) => setSort(value)}
+    />
   );
 };
