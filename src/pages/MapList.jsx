@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import _ from "lodash";
 import { useHistory } from "react-router-dom";
@@ -8,7 +8,9 @@ import { DisplayModal } from "../components/DisplayModal";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import TextField from "@material-ui/core/TextField";
 import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
+import SearchIcon from "@material-ui/icons/Search";
 import Autocomplete from "@material-ui/lab/Autocomplete";
+import InputAdornment from "@material-ui/core/InputAdornment";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -110,8 +112,8 @@ export const MapList = ({ user }) => {
     refreshList();
   }
 
-  async function searchLocations(data) {
-    getData(data.search);
+  async function searchLocations(search) {
+    getData(search);
   }
 
   const ModalAction = ({ onClick }) => {
@@ -259,33 +261,53 @@ const DeleteConfirmation = ({ deleteHandler, handleClose }) => (
 );
 
 const SearchBox = ({ searchHandler }) => {
-  const { register, handleSubmit } = useForm();
+  const [search, setSearch] = useState();
+
+  const changeHandler = (event) => {
+    setSearch(event.target.value);
+  };
 
   return (
-    <form onSubmit={handleSubmit(searchHandler)}>
-      <InputElement
-        type="text"
-        placeholder="Search"
-        name="search"
-        register={register}
-      />
-
-      <button>Search</button>
-    </form>
+    <TextField
+      onChange={changeHandler}
+      label="Search"
+      size="small"
+      variant="outlined"
+      InputProps={{
+        startAdornment: (
+          <InputAdornment position="start">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+        endAdornment: (
+          <InputAdornment position="end">
+            <button onClick={() => searchHandler(search)}>Search</button>
+          </InputAdornment>
+        ),
+      }}
+    />
   );
 };
 
 const SortBox = ({ setSort }) => {
+  const changeHandler = (event, value) => {
+    if (value === null) {
+      setSort(SORT.NAME);
+      return;
+    }
+    setSort(value);
+  };
+
   return (
     <Autocomplete
-      id="combo-box-demo"
       options={[SORT.NAME, SORT.RATING]}
       getOptionLabel={(option) => option.label}
       style={{ width: 300 }}
+      size="small"
       renderInput={(params) => (
         <TextField {...params} label="Sort By" variant="outlined" />
       )}
-      onChange={(event, value) => setSort(value)}
+      onChange={changeHandler}
     />
   );
 };
