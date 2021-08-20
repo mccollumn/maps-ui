@@ -82,3 +82,10 @@ form {
 .location-form {
   width: 100%;
 }
+
+.map-list-header {
+  display: grid;
+  grid-template-columns: 7fr 3fr 2fr;
+  gap: 8px;
+  margin: 12px;
+}

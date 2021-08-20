@@ -11,6 +11,8 @@ import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
 import SearchIcon from "@material-ui/icons/Search";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import AddIcon from "@material-ui/icons/Add";
+import Button from "@material-ui/core/Button";
 
 const GOOGLE_MAP_API_KEY = process.env.REACT_APP_GOOGLE_MAP_API_KEY;
 
@@ -118,9 +120,15 @@ export const MapList = ({ user }) => {
 
   const ModalAction = ({ onClick }) => {
     return (
-      <button type="button" onClick={onClick} className="primary">
-        Add Location
-      </button>
+      <Button
+        variant="contained"
+        color="primary"
+        startIcon={<AddIcon />}
+        onClick={onClick}
+        className="primary"
+      >
+        Add
+      </Button>
     );
   };
 
@@ -128,13 +136,14 @@ export const MapList = ({ user }) => {
 
   return (
     <div>
-      <button onClick={refreshList}>Refresh List</button>
-      <DisplayModal>
-        <ModalAction />
-        <MapForm addLocation={addLocation} />
-      </DisplayModal>
-      <SearchBox searchHandler={searchLocations} />
-      <SortBox setSort={setSort} />
+      <div className="map-list-header">
+        <SearchBox searchHandler={searchLocations} />
+        <SortBox setSort={setSort} />
+        <DisplayModal>
+          <ModalAction />
+          <MapForm addLocation={addLocation} />
+        </DisplayModal>
+      </div>
       {locations.isError && <p>Oops... Something went wrong.</p>}
       {locations.isLoading ? (
         <LinearProgress />
@@ -264,7 +273,17 @@ const SearchBox = ({ searchHandler }) => {
   const [search, setSearch] = useState();
 
   const changeHandler = (event) => {
+    if (event.target.value === "") {
+      searchHandler("");
+    }
     setSearch(event.target.value);
+  };
+
+  const onKeyPress = (event) => {
+    if (event.key === "Enter") {
+      searchHandler(search);
+      event.preventDefault();
+    }
   };
 
   return (
@@ -273,6 +292,7 @@ const SearchBox = ({ searchHandler }) => {
       label="Search"
       size="small"
       variant="outlined"
+      onKeyPress={onKeyPress}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
@@ -281,7 +301,7 @@ const SearchBox = ({ searchHandler }) => {
         ),
         endAdornment: (
           <InputAdornment position="end">
-            <button onClick={() => searchHandler(search)}>Search</button>
+            <Button onClick={() => searchHandler(search)}>Search</Button>
           </InputAdornment>
         ),
       }}
@@ -302,7 +322,6 @@ const SortBox = ({ setSort }) => {
     <Autocomplete
       options={[SORT.NAME, SORT.RATING]}
       getOptionLabel={(option) => option.label}
-      style={{ width: 300 }}
       size="small"
       renderInput={(params) => (
         <TextField {...params} label="Sort By" variant="outlined" />
