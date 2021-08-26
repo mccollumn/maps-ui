@@ -3,10 +3,24 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Authentication } from "./components/Authentication";
+import { ThemeProvider, createTheme } from "@material-ui/core/styles";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#ef8354",
+    },
+    secondary: {
+      main: "#0f15c9",
+    },
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
-    <Authentication />
+    <ThemeProvider theme={theme}>
+      <Authentication />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
